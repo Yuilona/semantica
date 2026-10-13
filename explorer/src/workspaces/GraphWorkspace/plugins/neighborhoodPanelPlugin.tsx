@@ -29,8 +29,8 @@ export const neighborhoodPanelPlugin: GraphPlugin = {
   toolbarItems: (context) => [
     {
       id: "neighborhood-toggle",
-      label: "Neighbors",
-      title: "Toggle neighborhood panel",
+      label: "邻居",
+      title: "显示或隐藏邻域面板",
       active: context.isPanelOpen(NEIGHBORHOOD_PANEL_ID),
       order: 30,
       onClick: () => context.dispatchAction({ type: "togglePanel", panelId: NEIGHBORHOOD_PANEL_ID }),
@@ -46,13 +46,13 @@ export const neighborhoodPanelPlugin: GraphPlugin = {
     if (!selected) {
       return {
         id: NEIGHBORHOOD_PANEL_ID,
-        title: "Neighborhood",
+        title: "邻域",
         placement: "bottom",
         order: 20,
         defaultOpen: false,
         preferredWidth: 360,
         preferredHeight: 260,
-        content: <div style={emptyTextStyle}>Select a node to inspect its local neighborhood.</div>,
+        content: <div style={emptyTextStyle}>选择一个节点，查看它的局部邻域。</div>,
       };
     }
 
@@ -91,7 +91,7 @@ export const neighborhoodPanelPlugin: GraphPlugin = {
 
     return {
       id: NEIGHBORHOOD_PANEL_ID,
-      title: "Neighborhood",
+      title: "邻域",
       placement: "bottom",
       order: 20,
       defaultOpen: false,
@@ -101,7 +101,7 @@ export const neighborhoodPanelPlugin: GraphPlugin = {
         <div style={panelBodyStyle}>
           <div style={panelEyebrowStyle}>{selected.label}</div>
           <div style={summaryStyle}>
-            {selected.neighborCount.toLocaleString()} direct neighbors in the full graph
+            {selected.neighborCount.toLocaleString()} 个直接邻居（全图范围）
           </div>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             <button
@@ -110,7 +110,7 @@ export const neighborhoodPanelPlugin: GraphPlugin = {
               disabled={!selected.canCollapseNeighborhood || selected.isNeighborhoodCollapsed}
               style={controlButtonStyle}
             >
-              Collapse Neighborhood
+              折叠邻域
             </button>
             <button
               type="button"
@@ -118,17 +118,17 @@ export const neighborhoodPanelPlugin: GraphPlugin = {
               disabled={!selected.isNeighborhoodCollapsed}
               style={controlButtonStyle}
             >
-              Expand Neighborhood
+              展开邻域
             </button>
           </div>
           {hiddenNeighborCount > 0 ? (
             <div style={summaryStyle}>
-              {hiddenNeighborCount.toLocaleString()} lower-priority neighbors are collapsed in the current view.
+              {hiddenNeighborCount.toLocaleString()} 个低优先级邻居在当前视图中已折叠。
             </div>
           ) : null}
           {aggregatedEdgeCount > 0 ? (
             <div style={summaryStyle}>
-              {aggregatedEdgeCount.toLocaleString()} aggregated structural bundle{aggregatedEdgeCount === 1 ? "" : "s"} visible.
+              {aggregatedEdgeCount.toLocaleString()} 个聚合的结构边束 可见。
             </div>
           ) : null}
           {neighbors.length ? (
@@ -155,7 +155,7 @@ export const neighborhoodPanelPlugin: GraphPlugin = {
               ))}
             </div>
           ) : (
-            <div style={emptyTextStyle}>No direct neighbors are available for this node.</div>
+            <div style={emptyTextStyle}>这个节点没有直接邻居。</div>
           )}
         </div>
       ),

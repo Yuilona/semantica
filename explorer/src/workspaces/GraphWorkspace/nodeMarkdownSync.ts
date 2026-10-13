@@ -60,12 +60,12 @@ export async function readNodeMarkdownAttributeUpdate(
     `/api/graph/node?node_id=${encodeURIComponent(nodeId)}`,
   );
   if (!response.ok) {
-    throw new Error(`Graph node refresh failed (${response.status}).`);
+    throw new Error(`图谱节点刷新失败（${response.status}）。`);
   }
 
   const node = await response.json() as GraphNodeMarkdownSnapshot;
   if (node.id !== nodeId) {
-    throw new Error("Graph node refresh returned a different resource.");
+    throw new Error("图谱节点刷新返回了另一个资源。");
   }
 
   return {

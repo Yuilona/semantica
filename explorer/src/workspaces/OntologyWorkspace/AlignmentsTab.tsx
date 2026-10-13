@@ -131,7 +131,7 @@ export function AlignmentsTab() {
 
   const handleSave = useCallback(async () => {
     if (!sourceUri.trim() || !targetUri.trim()) {
-      setError("Provide both source and target entity URIs.");
+      setError("请同时填写源实体和目标实体的 URI。");
       return;
     }
     setBusy(true);
@@ -199,30 +199,28 @@ export function AlignmentsTab() {
     <div style={pageStyle}>
       <section style={heroStyle}>
         <div>
-          <div style={kickerStyle}><GitMerge size={14} /> Alignment Matrix</div>
-          <h2 style={titleStyle}>Cross-ontology mappings</h2>
+          <div style={kickerStyle}><GitMerge size={14} /> 对齐矩阵</div>
+          <h2 style={titleStyle}>跨本体映射</h2>
           <p style={textStyle}>
-            Manage equivalence and SKOS match relations with confidence, provenance,
-            reviewer context, and label-based suggestions.
+            管理等价关系和 SKOS 匹配关系，包括置信度、溯源、审核人信息，以及基于标签的建议。
           </p>
         </div>
         <div style={summaryGridStyle}>
-          <Metric label="Mappings" value={alignments.length} />
-          <Metric label="Relations" value={relationCounts.size} />
-          <Metric label="Suggestions" value={suggestions.length} />
+          <Metric label="映射" value={alignments.length} />
+          <Metric label="关系" value={relationCounts.size} />
+          <Metric label="建议" value={suggestions.length} />
         </div>
       </section>
 
       {error ? <div style={errorStyle}>{error}</div> : null}
 
       <div style={ephemeralBannerStyle}>
-        Alignments are stored in server memory and are not persisted across restarts.
-        Export your graph or ontology to preserve recorded mappings.
+        对齐结果只保存在服务器内存中，重启后会丢失。如需保留，请导出图谱或本体。
       </div>
 
       {matrix.ontologies.length >= 2 ? (
         <section style={cardStyle}>
-          <h3 style={sectionTitleStyle}>Pairwise alignment matrix</h3>
+          <h3 style={sectionTitleStyle}>两两对齐矩阵</h3>
           <div style={{ overflowX: "auto" }}>
             <table style={matrixTableStyle}>
               <thead>
@@ -271,26 +269,26 @@ export function AlignmentsTab() {
               </tbody>
             </table>
           </div>
-          <p style={{ ...mutedStyle, marginTop: 10 }}>Click a relation badge to load it into the editor below.</p>
+          <p style={{ ...mutedStyle, marginTop: 10 }}>点击一个关系标记，把它载入下方编辑器。</p>
         </section>
       ) : null}
 
       <div style={gridStyle}>
         <section style={cardStyle}>
-          <h3 style={sectionTitleStyle}>Create or update alignment</h3>
-          <label style={labelStyle}>Source entity URI</label>
+          <h3 style={sectionTitleStyle}>创建或更新对齐</h3>
+          <label style={labelStyle}>源实体 URI</label>
           <input style={inputStyle} value={sourceUri} onChange={(event) => setSourceUri(event.target.value)} />
-          <label style={labelStyle}>Target entity URI</label>
+          <label style={labelStyle}>目标实体 URI</label>
           <input style={inputStyle} value={targetUri} onChange={(event) => setTargetUri(event.target.value)} />
           <div style={twoColStyle}>
             <div>
-              <label style={labelStyle}>Relation</label>
+              <label style={labelStyle}>关系</label>
               <select style={inputStyle} value={relation} onChange={(event) => setRelation(event.target.value as AlignmentRelation)}>
                 {RELATIONS.map((item) => <option key={item}>{item}</option>)}
               </select>
             </div>
             <div>
-              <label style={labelStyle}>Confidence {confidence.toFixed(2)}</label>
+              <label style={labelStyle}>置信度 {confidence.toFixed(2)}</label>
               <input
                 type="range"
                 min="0"
@@ -302,43 +300,43 @@ export function AlignmentsTab() {
               />
             </div>
           </div>
-          <label style={labelStyle}>Provenance note</label>
+          <label style={labelStyle}>溯源备注</label>
           <textarea style={{ ...inputStyle, minHeight: 74, resize: "vertical" }} value={provenance} onChange={(event) => setProvenance(event.target.value)} />
           <div style={twoColStyle}>
             <div>
-              <label style={labelStyle}>Source</label>
+              <label style={labelStyle}>源码</label>
               <input style={inputStyle} value={source} onChange={(event) => setSource(event.target.value)} />
             </div>
             <div>
-              <label style={labelStyle}>Reviewer</label>
+              <label style={labelStyle}>审核人</label>
               <input style={inputStyle} value={reviewer} onChange={(event) => setReviewer(event.target.value)} />
             </div>
           </div>
           <button style={primaryButtonStyle} disabled={busy} onClick={handleSave}>
             {busy ? <Loader2 size={14} className="ws-spin" /> : <GitMerge size={14} />}
-            Save alignment
+            保存对齐
           </button>
         </section>
 
         <section style={cardStyle}>
-          <h3 style={sectionTitleStyle}>Suggest alignments</h3>
+          <h3 style={sectionTitleStyle}>推荐对齐</h3>
           <div style={twoColStyle}>
             <div>
-              <label style={labelStyle}>Source ontology</label>
+              <label style={labelStyle}>源本体</label>
               <select style={inputStyle} value={sourceOntology} onChange={(event) => setSourceOntology(event.target.value)}>
-                <option value="">Any ontology</option>
+                <option value="">任意本体</option>
                 {registry.map((entry) => <option key={entry.uri} value={entry.uri}>{entry.name}</option>)}
               </select>
             </div>
             <div>
-              <label style={labelStyle}>Target ontology</label>
+              <label style={labelStyle}>目标本体</label>
               <select style={inputStyle} value={targetOntology} onChange={(event) => setTargetOntology(event.target.value)}>
-                <option value="">Any ontology</option>
+                <option value="">任意本体</option>
                 {registry.map((entry) => <option key={entry.uri} value={entry.uri}>{entry.name}</option>)}
               </select>
             </div>
           </div>
-          <label style={labelStyle}>Similarity threshold {threshold.toFixed(2)}</label>
+          <label style={labelStyle}>相似度阈值 {threshold.toFixed(2)}</label>
           <input
             type="range"
             min="0.25"
@@ -350,7 +348,7 @@ export function AlignmentsTab() {
           />
           <button style={secondaryButtonStyle} disabled={busy} onClick={handleSuggest}>
             <Sparkles size={14} />
-            Suggest alignments
+            推荐对齐
           </button>
           <div style={suggestionListStyle}>
             {suggestions.map((item) => (
@@ -361,13 +359,13 @@ export function AlignmentsTab() {
                 <span style={{ color: "#8fa8c6" }}>{Math.round(item.score * 100)}%</span>
               </button>
             ))}
-            {!suggestions.length ? <p style={mutedStyle}>Run suggestions to review ranked candidate mappings.</p> : null}
+            {!suggestions.length ? <p style={mutedStyle}>运行推荐，查看按排名列出的候选映射。</p> : null}
           </div>
         </section>
       </div>
 
       <section style={cardStyle}>
-        <h3 style={sectionTitleStyle}>Recorded alignments</h3>
+        <h3 style={sectionTitleStyle}>已记录的对齐</h3>
         <div style={tableStyle}>
           {alignments.map((item) => (
             <div key={item.id} style={rowStyle}>
@@ -383,12 +381,12 @@ export function AlignmentsTab() {
                 <div style={monoStyle}>{item.target_uri}</div>
               </div>
               <div style={confidenceStyle}>{Math.round(item.confidence * 100)}%</div>
-              <button style={iconButtonStyle} disabled={busy} onClick={() => handleRemove(item.id)} title="Remove alignment">
+              <button style={iconButtonStyle} disabled={busy} onClick={() => handleRemove(item.id)} title="删除对齐">
                 <Trash2 size={14} />
               </button>
             </div>
           ))}
-          {!alignments.length ? <p style={mutedStyle}>No alignments recorded yet.</p> : null}
+          {!alignments.length ? <p style={mutedStyle}>还没有记录任何对齐。</p> : null}
         </div>
       </section>
     </div>

@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { Scale, Search, ArrowRight, Info } from "lucide-react";
+import { typeLabel } from "../../typeLabels";
 
 type OutcomeKind = "approved" | "rejected" | "deferred" | "pending" | string;
 
@@ -36,7 +37,7 @@ function ChainNode({ step, index }: { step: ChainStep; index: number }) {
     <div style={{ padding: "14px 16px", borderRadius: "var(--ws-radius)", background: "var(--ws-surface)", border: `1px solid ${accent}28`, borderLeft: `3px solid ${accent}`, position: "relative" }}>
       {step.type && (
         <div style={{ fontFamily: "monospace", fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: accent, marginBottom: 5 }}>
-          {step.type}
+          {typeLabel(step.type)}
         </div>
       )}
       <div style={{ color: "var(--ws-text)", fontSize: 13, fontWeight: 600 }}>{step.content || step.id}</div>
@@ -69,8 +70,8 @@ function CausalFlow({ chain, loading }: { chain: ChainStep[]; loading: boolean }
   if (!chain.length) return (
     <div className="ws-empty">
       <div className="ws-empty-icon"><Info size={28} /></div>
-      <div className="ws-empty-title">No chain steps</div>
-      <div className="ws-empty-body">No causal chain steps were found for this decision.</div>
+      <div className="ws-empty-title">没有因果链步骤</div>
+      <div className="ws-empty-body">没有找到这个决策的因果链步骤。</div>
     </div>
   );
   return (
@@ -78,7 +79,7 @@ function CausalFlow({ chain, loading }: { chain: ChainStep[]; loading: boolean }
       {chain.map((step, i) => (
         <div key={`${step.id}-${i}`}>
           <ChainNode step={step} index={i} />
-          {i < chain.length - 1 && <RelEdge label={chain[i + 1]?.relationship || "→"} />}
+          {i < chain.length - 1 && <RelEdge label={typeLabel(chain[i + 1]?.relationship) || "→"} />}
         </div>
       ))}
     </div>
@@ -173,7 +174,7 @@ export function DecisionWorkspace() {
             <div style={{ width: 30, height: 30, borderRadius: 9, background: "var(--ws-accent-soft)", border: "1px solid var(--ws-border-strong)", display: "grid", placeItems: "center", color: "var(--ws-accent)", flexShrink: 0 }}>
               <Scale size={15} />
             </div>
-            <div style={{ color: "var(--ws-text)", fontSize: 14, fontWeight: 700 }}>Decisions</div>
+            <div style={{ color: "var(--ws-text)", fontSize: 14, fontWeight: 700 }}>决策</div>
             {decisions.length > 0 && !listLoading && (
               <span className="ws-pill ws-pill--mono" style={{ marginLeft: "auto" }}>{decisions.length}</span>
             )}
@@ -183,7 +184,7 @@ export function DecisionWorkspace() {
             <input
               className="ws-input"
               type="text"
-              placeholder="Filter by ID, category, outcome…"
+              placeholder="按 ID、类别、结果筛选…"
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
               style={{ paddingLeft: 30, fontSize: 12 }}
@@ -198,8 +199,8 @@ export function DecisionWorkspace() {
             </div>
           ) : filtered.length === 0 ? (
             <div className="ws-empty" style={{ padding: "28px 12px" }}>
-              <div className="ws-empty-title">{decisions.length === 0 ? "No decisions" : "No matches"}</div>
-              <div className="ws-empty-body">{decisions.length === 0 ? "No decisions available in the graph." : "Adjust your filter."}</div>
+              <div className="ws-empty-title">{decisions.length === 0 ? "没有决策" : "没有匹配项"}</div>
+              <div className="ws-empty-body">{decisions.length === 0 ? "图谱中没有决策。" : "请调整筛选条件。"}</div>
             </div>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
@@ -242,7 +243,7 @@ export function DecisionWorkspace() {
             <div style={{ marginBottom: 28 }}>
               <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, flexWrap: "wrap", marginBottom: 10 }}>
                 <div>
-                  <div className="ws-eyebrow" style={{ marginBottom: 6 }}>Decision Record</div>
+                  <div className="ws-eyebrow" style={{ marginBottom: 6 }}>决策记录</div>
                   <h2 className="ws-title">{selected.decision_id}</h2>
                 </div>
                 {selected.outcome && <OutcomeBadge outcome={selected.outcome} />}
@@ -256,9 +257,9 @@ export function DecisionWorkspace() {
             <div className="ws-card" style={{ padding: 22 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
                 <div style={{ width: 8, height: 8, borderRadius: 999, background: "linear-gradient(135deg, var(--ws-accent), var(--ws-amber))", boxShadow: "0 0 10px rgba(74,163,255,0.4)" }} />
-                <div style={{ color: "var(--ws-text)", fontSize: 14, fontWeight: 700 }}>Causal Chain</div>
+                <div style={{ color: "var(--ws-text)", fontSize: 14, fontWeight: 700 }}>因果链</div>
                 {chain.length > 0 && !chainLoading && (
-                  <span className="ws-pill ws-pill--accent" style={{ marginLeft: "auto" }}>{chain.length} step{chain.length !== 1 ? "s" : ""}</span>
+                  <span className="ws-pill ws-pill--accent" style={{ marginLeft: "auto" }}>{chain.length} 步</span>
                 )}
               </div>
               <CausalFlow chain={chain} loading={chainLoading} />
@@ -268,8 +269,8 @@ export function DecisionWorkspace() {
           <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", zIndex: 1 }}>
             <div className="ws-empty">
               <div className="ws-empty-icon"><Scale size={32} /></div>
-              <div className="ws-empty-title">No decision selected</div>
-              <div className="ws-empty-body">Select a decision from the list to inspect its causal chain and metadata.</div>
+              <div className="ws-empty-title">未选择决策</div>
+              <div className="ws-empty-body">从列表中选择一个决策，查看它的因果链和元数据。</div>
             </div>
           </div>
         )}

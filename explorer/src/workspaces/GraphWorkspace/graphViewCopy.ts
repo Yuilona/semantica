@@ -1,14 +1,14 @@
 import type { FocusedUnavailableReason, GroupedViewUnavailableReason } from "./types";
 
 const GROUPED_VIEW_COPY = {
-  "communities-undetected": "Grouped view is unavailable until communities can be detected.",
-  "community-nodes-missing": "Grouped view is unavailable because no community nodes could be created.",
+  "communities-undetected": "检测到社区之前无法使用分组视图。",
+  "community-nodes-missing": "无法生成社区节点，分组视图不可用。",
 } as const;
 
 const FOCUSED_MODE_COPY = {
-  "no-selection": "Select a node to inspect in Focused mode.",
-  "grouped-unresolvable": "Focused mode is unavailable for this grouped selection.",
-  "not-in-graph": "Selected item is not available in the current graph.",
+  "no-selection": "选择一个节点，在聚焦模式中查看。",
+  "grouped-unresolvable": "这个分组选择无法使用聚焦模式。",
+  "not-in-graph": "所选项不在当前图谱中。",
 } as const;
 
 export function groupedViewReasonText(
@@ -24,9 +24,9 @@ export function groupedViewReasonText(
     case "community-nodes-missing":
       return GROUPED_VIEW_COPY["community-nodes-missing"];
     case "invalid-community-layout":
-      return `Grouped node ${reason.nodeId} has invalid coordinates.`;
+      return `分组节点 ${reason.nodeId} 的坐标无效。`;
     case "missing-grouped-node":
-      return `Grouped edge ${reason.edgeId} references a missing grouped node.`;
+      return `分组边 ${reason.edgeId} 引用了不存在的分组节点。`;
   }
 }
 

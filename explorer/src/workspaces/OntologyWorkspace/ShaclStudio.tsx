@@ -193,15 +193,14 @@ export function ShaclStudio({ onJumpToNode }: ShaclStudioProps) {
     <div style={pageStyle}>
       <section style={heroStyle}>
         <div>
-          <div style={kickerStyle}><Shield size={14} /> SHACL Studio</div>
-          <h2 style={titleStyle}>Generate, edit, and validate shapes</h2>
+          <div style={kickerStyle}><Shield size={14} /> SHACL 工作台</div>
+          <h2 style={titleStyle}>生成、编辑和校验约束形状</h2>
           <p style={textStyle}>
-            Create strict SHACL Turtle from ontology structure, inspect shape targets,
-            run validation, and jump from violations back into the graph.
+            根据本体结构生成严格的 SHACL Turtle，查看形状目标，运行校验，并能从违规项直接跳回图谱。
           </p>
         </div>
         <div style={selectorShellStyle}>
-          <label style={labelStyle}>Ontology</label>
+          <label style={labelStyle}>本体</label>
           <select style={inputStyle} value={selectedUri} onChange={(event) => setSelectedUri(event.target.value)}>
             {registry.map((entry) => <option key={entry.uri} value={entry.uri}>{entry.name}</option>)}
           </select>
@@ -213,11 +212,11 @@ export function ShaclStudio({ onJumpToNode }: ShaclStudioProps) {
       <div style={gridStyle}>
         <section style={cardStyle}>
           <div style={panelHeaderStyle}>
-            <h3 style={sectionTitleStyle}>Shape library</h3>
+            <h3 style={sectionTitleStyle}>形状库</h3>
             <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-              <span style={countBadgeStyle}>{shapes.length} shapes</span>
+              <span style={countBadgeStyle}>{shapes.length} 个形状</span>
               {selectedShapeId ? (
-                <button style={smallButtonStyle} onClick={handleShowAllShapes}>View all</button>
+                <button style={smallButtonStyle} onClick={handleShowAllShapes}>查看全部</button>
               ) : null}
             </div>
           </div>
@@ -239,13 +238,13 @@ export function ShaclStudio({ onJumpToNode }: ShaclStudioProps) {
                         width: "100%",
                       }}
                       onClick={() => handleSelectShape(shape.id)}
-                      title="Click to load this shape into the editor"
+                      title="点击把这个形状载入编辑器"
                     >
                       <FileCode2 size={14} color={isSelected ? "#7ce7d3" : "#9ee8d7"} />
                       <div>
                         <div style={{ color: "#ebf3ff", fontWeight: 800 }}>{shape.id}</div>
                         <div style={mutedStyle}>
-                          {shape.constraint_count} constraints
+                          {shape.constraint_count} 条约束
                           {shape.constraints.length ? ` · ${shape.constraints.join(", ")}` : ""}
                         </div>
                       </div>
@@ -255,20 +254,20 @@ export function ShaclStudio({ onJumpToNode }: ShaclStudioProps) {
                 })}
               </div>
             ))}
-            {!shapes.length ? <p style={mutedStyle}>No shapes generated yet.</p> : null}
+            {!shapes.length ? <p style={mutedStyle}>还没有生成任何形状。</p> : null}
           </div>
         </section>
 
         <section style={editorShellStyle}>
           <div style={panelHeaderStyle}>
             <h3 style={sectionTitleStyle}>
-              {selectedShapeId ? selectedShapeId : "Turtle shape editor"}
+              {selectedShapeId ? selectedShapeId : "Turtle 形状编辑器"}
             </h3>
             <div style={{ display: "flex", gap: 8 }}>
-              <button style={secondaryButtonStyle} disabled={loading} onClick={handleGenerate}><Wand2 size={14} /> Generate strict</button>
+              <button style={secondaryButtonStyle} disabled={loading} onClick={handleGenerate}><Wand2 size={14} /> 生成严格约束</button>
               <button style={primaryButtonStyle} disabled={loading || !shacl.trim()} onClick={handleValidate}>
                 {loading ? <Loader2 size={14} className="ws-spin" /> : <Play size={14} />}
-                Validate
+                校验
               </button>
             </div>
           </div>
@@ -294,8 +293,8 @@ export function ShaclStudio({ onJumpToNode }: ShaclStudioProps) {
 
       <section style={cardStyle}>
         <div style={panelHeaderStyle}>
-          <h3 style={sectionTitleStyle}>Validation report</h3>
-          {validation ? <span style={validationBadgeStyle(validation.status, validation.conforms)}>{validation.status}{validation.conforms ? " · conforms" : ""}</span> : null}
+          <h3 style={sectionTitleStyle}>校验报告</h3>
+          {validation ? <span style={validationBadgeStyle(validation.status, validation.conforms)}>{validation.status}{validation.conforms ? " · 符合约束" : ""}</span> : null}
         </div>
         {validation ? (
           <>
@@ -312,17 +311,17 @@ export function ShaclStudio({ onJumpToNode }: ShaclStudioProps) {
                     </div>
                     {nodeId ? (
                       <button style={smallButtonStyle} onClick={() => onJumpToNode?.(nodeId)}>
-                        Jump to Node
+                        跳转到节点
                       </button>
                     ) : null}
                   </div>
                 );
               })}
-              {!validation.violations.length ? <p style={mutedStyle}>No validation violations returned.</p> : null}
+              {!validation.violations.length ? <p style={mutedStyle}>没有校验违规项。</p> : null}
             </div>
           </>
         ) : (
-          <p style={mutedStyle}>Generate or edit SHACL Turtle, then run validation.</p>
+          <p style={mutedStyle}>生成或编辑 SHACL Turtle，然后运行校验。</p>
         )}
       </section>
     </div>

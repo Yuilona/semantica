@@ -89,7 +89,7 @@ function ConceptDetailPanel({
     let ignore = false;
     fetch(`/api/ontology/skos/concept/${encodeURIComponent(uri)}`)
       .then(async (r) => {
-        if (!r.ok) throw new Error("Concept not found");
+        if (!r.ok) throw new Error("未找到概念");
         const data = await r.json();
         if (r.status === 207) setError(data.message || "Warning: Partial success loading concept.");
         return data;
@@ -133,7 +133,7 @@ function ConceptDetailPanel({
       <div style={detailHeaderStyle}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <BookOpen size={13} color="#9ee8d7" />
-          <span style={{ color: "#ebf3ff", fontSize: 13, fontWeight: 700 }}>Concept Detail</span>
+          <span style={{ color: "#ebf3ff", fontSize: 13, fontWeight: 700 }}>概念详情</span>
         </div>
         <button onClick={onClose} style={iconBtnStyle}>
           <X size={14} />
@@ -177,7 +177,7 @@ function ConceptDetailPanel({
           </div>
 
           {detail.definition && (
-            <PropSection label="Definition">
+            <PropSection label="定义">
               <p style={{ margin: 0, color: "#c6d4e3", fontSize: 13, lineHeight: 1.6 }}>
                 {detail.definition}
               </p>
@@ -185,7 +185,7 @@ function ConceptDetailPanel({
           )}
 
           {detail.scope_note && (
-            <PropSection label="Scope Note">
+            <PropSection label="范围注释">
               <p style={{ margin: 0, color: "#8fa8c6", fontSize: 12, lineHeight: 1.5 }}>
                 {detail.scope_note}
               </p>
@@ -193,7 +193,7 @@ function ConceptDetailPanel({
           )}
 
           {detail.editorial_note && (
-            <PropSection label="Editorial Note">
+            <PropSection label="编辑注释">
               <p style={{ margin: 0, color: "#8fa8c6", fontSize: 12, lineHeight: 1.5 }}>
                 {detail.editorial_note}
               </p>
@@ -209,7 +209,7 @@ function ConceptDetailPanel({
           {renderUriList("Narrow Match", detail.narrow_match)}
 
           {detail.scheme_uri && (
-            <PropSection label="Concept Scheme">
+            <PropSection label="概念体系">
               <span style={{ color: "#c6d4e3", fontSize: 11, fontFamily: "monospace", wordBreak: "break-all" }}>
                 {detail.scheme_uri}
               </span>
@@ -410,7 +410,7 @@ function SchemePanel({
           <span style={{ color: "#e6edf3", fontSize: 14, fontWeight: 700 }}>{scheme.title}</span>
         </div>
         <span style={{ color: "#6a7f97", fontSize: 11 }}>
-          {loading ? "…" : `${totalConcepts} concept${totalConcepts !== 1 ? "s" : ""}`}
+          {loading ? "…" : `${totalConcepts} 个概念`}
         </span>
       </button>
 
@@ -420,11 +420,11 @@ function SchemePanel({
           {loading ? (
             <div style={{ padding: "10px 20px", display: "flex", alignItems: "center", gap: 8 }}>
               <Loader2 size={12} color="#4aa3ff" style={{ animation: "spin 0.8s linear infinite" }} />
-              <span style={{ color: "#6a7f97", fontSize: 12 }}>Loading concepts…</span>
+              <span style={{ color: "#6a7f97", fontSize: 12 }}>正在加载概念…</span>
             </div>
           ) : displayedConcepts.length === 0 ? (
             <div style={{ padding: "8px 24px", color: "#6a7f97", fontSize: 12, fontStyle: "italic" }}>
-              {searchQuery ? "No matching concepts" : "No concepts in this scheme"}
+              {searchQuery ? "没有匹配的概念" : "这个概念体系中没有概念"}
             </div>
           ) : (
             <div style={{ paddingTop: 2 }}>
@@ -463,7 +463,7 @@ export function SKOSVocabularyManager({ schemeUri }: Props) {
   useEffect(() => {
     fetch("/api/ontology/skos/schemes")
       .then(async (r) => {
-        if (!r.ok) throw new Error(`Failed to load schemes (${r.status})`);
+        if (!r.ok) throw new Error(`加载概念体系失败（${r.status}）`);
         const data = await r.json();
         if (r.status === 207) setError(data.message || "Warning: Partial success loading schemes.");
         return data;
@@ -487,7 +487,7 @@ export function SKOSVocabularyManager({ schemeUri }: Props) {
           <input
             value={searchQ}
             onChange={(e) => setSearchQ(e.target.value)}
-            placeholder="Search labels and definitions…"
+            placeholder="搜索标签和定义…"
             style={skosSearchInputStyle}
           />
           {searchQ && (
@@ -518,10 +518,10 @@ export function SKOSVocabularyManager({ schemeUri }: Props) {
             <div style={{ ...centerStyle, textAlign: "center", padding: 28 }}>
               <BookOpen size={28} color="rgba(158,232,215,0.15)" />
               <span style={{ color: "#8fa8c6", fontSize: 12, marginTop: 10 }}>
-                No SKOS concept schemes found
+                没有找到 SKOS 概念体系
               </span>
               <span style={{ color: "#6a7f97", fontSize: 11, marginTop: 4, maxWidth: 220 }}>
-                Import a SKOS vocabulary to browse concepts here
+                导入 SKOS 词表后可以在这里浏览概念
               </span>
             </div>
           )}

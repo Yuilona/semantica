@@ -237,7 +237,7 @@ export function GraphLoadingOverlay({
   const [displayProgress, setDisplayProgress] = useState<GraphLoadProgress>(
     progress ?? createGraphLoadProgress({
       phase: "bootstrapping",
-      message: "Preparing graph session",
+      message: "正在准备图谱会话",
       progressKind: "indeterminate",
     }),
   );
@@ -298,10 +298,10 @@ export function GraphLoadingOverlay({
             </div>
             <div style={{ minWidth: 0 }}>
               <div style={{ color: "#ffffff", fontSize: 20, fontWeight: 700, letterSpacing: "-0.03em", marginBottom: 6 }}>
-                Could not load the graph
+                无法加载图谱
               </div>
               <div style={{ color: "#8fa8c6", fontSize: 13, lineHeight: 1.5 }}>
-                The Explorer API did not return graph data. Check that the backend is running and reachable, then try again.
+                Explorer 接口没有返回图谱数据。请确认后端正在运行且可以访问，然后重试。
               </div>
             </div>
           </div>
@@ -312,7 +312,7 @@ export function GraphLoadingOverlay({
             <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
               <button type="button" className="graph-stage-loader-retry" onClick={onRetry}>
                 <RefreshCw size={14} strokeWidth={2.2} aria-hidden />
-                Retry
+                重试
               </button>
             </div>
           ) : null}
@@ -352,7 +352,7 @@ export function GraphLoadingOverlay({
           <div style={{ display: "inline-flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
             <div className="graph-stage-loader-beacon" aria-hidden="true" />
             <div style={{ color: "#d7e9fb", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>
-              Stage {activeProgress.stageIndex ?? 1}/{activeProgress.stageCount ?? GRAPH_LOAD_STAGE_SEQUENCE.length}
+              阶段 {activeProgress.stageIndex ?? 1}/{activeProgress.stageCount ?? GRAPH_LOAD_STAGE_SEQUENCE.length}
             </div>
           </div>
         </div>
@@ -372,13 +372,13 @@ export function GraphLoadingOverlay({
         <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "baseline", marginBottom: 8 }}>
           <div style={{ color: "#dce9f6", fontSize: 12, fontWeight: 600 }}>
             {activeProgress.progressKind === "determinate" && activeProgress.total
-              ? `${(activeProgress.loaded ?? 0).toLocaleString()} / ${activeProgress.total.toLocaleString()} in current stage`
-              : "Working through this stage"}
+              ? `当前阶段 ${(activeProgress.loaded ?? 0).toLocaleString()} / ${activeProgress.total.toLocaleString()}`
+              : "正在处理这一阶段"}
           </div>
           <div style={{ color: "#90a8c5", fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" }}>
             {activeProgress.progressKind === "determinate" && determinateRatio !== null
               ? `${Math.round(determinateRatio * 100)}%`
-              : "Live"}
+              : "实时"}
           </div>
         </div>
 
@@ -391,11 +391,11 @@ export function GraphLoadingOverlay({
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 14 }}>
           <span style={loadingMetricStyle}>
             {activeProgress.nodesLoaded.toLocaleString()}
-            {activeProgress.nodesTotal ? ` / ${activeProgress.nodesTotal.toLocaleString()}` : ""} nodes
+            {activeProgress.nodesTotal ? ` / ${activeProgress.nodesTotal.toLocaleString()}` : ""} 个节点
           </span>
           <span style={loadingMetricStyle}>
             {activeProgress.edgesLoaded.toLocaleString()}
-            {activeProgress.edgesTotal ? ` / ${activeProgress.edgesTotal.toLocaleString()}` : ""} relationships
+            {activeProgress.edgesTotal ? ` / ${activeProgress.edgesTotal.toLocaleString()}` : ""} 条关系
           </span>
           {layoutSource ? (
             <span style={{ ...loadingMetricStyle, color: "#a9ddff", borderColor: withAlpha(GRAPH_THEME.palette.accent.hovered, 0.22) }}>

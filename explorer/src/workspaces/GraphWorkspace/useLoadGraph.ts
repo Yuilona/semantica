@@ -354,7 +354,7 @@ async function fetchAllNodes(
 
     const response = await fetch(url.toString(), { signal });
     if (!response.ok) {
-      throw new Error(`Fetch failed: ${response.status}${await fetchErrorDetail(response)}`);
+      throw new Error(`请求失败：${response.status}${await fetchErrorDetail(response)}`);
     }
 
     const data: NodeListResponse = await response.json();
@@ -374,8 +374,8 @@ async function fetchAllNodes(
       edgesLoaded: 0,
       edgesTotal: null,
       message: total
-        ? `Loading nodes ${collected.length.toLocaleString()} of ${total.toLocaleString()}`
-        : `Loading nodes ${collected.length.toLocaleString()}`,
+        ? `正在加载节点 ${collected.length.toLocaleString()} / ${total.toLocaleString()}`
+        : `正在加载节点 ${collected.length.toLocaleString()}`,
     }));
 
     if (!data.next_cursor) {
@@ -409,7 +409,7 @@ async function fetchAllEdges(
 
     const response = await fetch(url.toString(), { signal });
     if (!response.ok) {
-      throw new Error(`Fetch failed: ${response.status}${await fetchErrorDetail(response)}`);
+      throw new Error(`请求失败：${response.status}${await fetchErrorDetail(response)}`);
     }
 
     const data: EdgeListResponse = await response.json();
@@ -447,8 +447,8 @@ async function fetchAllEdges(
       edgesLoaded: safeLoaded,
       edgesTotal: total,
       message: total
-        ? `Loading edges ${safeLoaded.toLocaleString()} of ${total.toLocaleString()}`
-        : `Loading edges ${safeLoaded.toLocaleString()}`,
+        ? `正在加载边 ${safeLoaded.toLocaleString()} / ${total.toLocaleString()}`
+        : `正在加载边 ${safeLoaded.toLocaleString()}`,
     }));
 
     if (!data.next_cursor) {
@@ -491,7 +491,7 @@ export function useLoadGraph(options: UseLoadGraphOptions = {}) {
         nodesTotal: null,
         edgesLoaded: 0,
         edgesTotal: null,
-        message: "Preparing graph session",
+        message: "正在准备图谱会话",
       }));
 
       const fetchedNodes = await fetchAllNodes(signal, onProgress);
@@ -534,7 +534,7 @@ export function useLoadGraph(options: UseLoadGraphOptions = {}) {
         nodesTotal: fetchedNodes.length,
         edgesLoaded: fetchedEdges.length,
         edgesTotal: fetchedEdges.length,
-        message: "Applying semantic color, sizing, and structural styling",
+        message: "正在应用语义配色、尺寸和结构样式",
       }));
 
       const colorAccessor = chooseColorAccessor(draftAttributes);
@@ -688,7 +688,7 @@ export function useLoadGraph(options: UseLoadGraphOptions = {}) {
         nodesTotal: nodesToMerge.length,
         edgesLoaded: edgesToMerge.length,
         edgesTotal: edgesToMerge.length,
-        message: "Preparing renderer and hydrating graph scene",
+        message: "正在准备渲染器并构建图谱场景",
       }));
 
       try {
@@ -728,7 +728,7 @@ export function useLoadGraph(options: UseLoadGraphOptions = {}) {
         nodesTotal: summary.nodeCount,
         edgesLoaded: summary.edgeCount,
         edgesTotal: summary.edgeCount,
-        message: summary.layoutReady ? "Graph ready" : "Settling runtime layout",
+        message: summary.layoutReady ? "图谱已就绪" : "正在稳定布局",
         showGraphBehind: !summary.layoutReady,
         layoutSource: summary.layoutSource,
         layoutState: summary.layoutReady ? "interactive" : "bootstrapping",

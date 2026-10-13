@@ -115,7 +115,7 @@ function PreviewCard({ preview }: { preview: OntologyPreview }) {
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
         <CheckCircle2 size={16} color="#4cc38a" />
         <span style={{ color: "#4cc38a", fontSize: 12, fontWeight: 700 }}>
-          Preview ready
+          预览已就绪
         </span>
         <Badge label={preview.format} color="#58a6ff" />
       </div>
@@ -128,11 +128,11 @@ function PreviewCard({ preview }: { preview: OntologyPreview }) {
       )}
 
       <div style={previewGridStyle}>
-        <PreviewRow label="Namespace" value={preview.namespace || preview.uri} mono />
-        {preview.version && <PreviewRow label="Version" value={preview.version} />}
-        {preview.license && <PreviewRow label="License" value={preview.license} />}
+        <PreviewRow label="命名空间" value={preview.namespace || preview.uri} mono />
+        {preview.version && <PreviewRow label="版本" value={preview.version} />}
+        {preview.license && <PreviewRow label="许可证" value={preview.license} />}
         <PreviewRow
-          label="Estimated triples"
+          label="估计三元组数"
           value={preview.estimated_triples.toLocaleString()}
         />
       </div>
@@ -196,7 +196,7 @@ function URLImportPanel({ onLoaded }: { onLoaded: () => void }) {
         body: JSON.stringify({ url: url.trim(), format: format || undefined }),
       });
       if (!res.ok) {
-        const err = await res.json().catch(() => ({ detail: "Unknown error" }));
+        const err = await res.json().catch(() => ({ detail: "未知错误" }));
         throw new Error(err.detail || "Preview failed");
       }
       setPreview(await res.json());
@@ -223,7 +223,7 @@ function URLImportPanel({ onLoaded }: { onLoaded: () => void }) {
         }),
       });
       if (!res.ok) {
-        const err = await res.json().catch(() => ({ detail: "Load failed" }));
+        const err = await res.json().catch(() => ({ detail: "加载失败" }));
         throw new Error(err.detail || "Load failed");
       }
       setLoadState("success");
@@ -239,7 +239,7 @@ function URLImportPanel({ onLoaded }: { onLoaded: () => void }) {
 
   return (
     <div style={panelBodyStyle}>
-      <FieldGroup label="Ontology URL">
+      <FieldGroup label="本体 URL">
         <div style={{ display: "flex", gap: 8 }}>
           <input
             type="url"
@@ -260,7 +260,7 @@ function URLImportPanel({ onLoaded }: { onLoaded: () => void }) {
             {previewState === "loading" ? (
               <Loader2 size={13} style={{ animation: "spin 1s linear infinite" }} />
             ) : (
-              "Fetch Preview"
+              "获取预览"
             )}
           </button>
         </div>
@@ -283,32 +283,32 @@ function URLImportPanel({ onLoaded }: { onLoaded: () => void }) {
           size={13}
           style={{ transform: showAdvanced ? "rotate(180deg)" : undefined, transition: "200ms" }}
         />
-        Advanced options
+        高级选项
       </button>
 
       {showAdvanced && (
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          <FieldGroup label="Format override">
+          <FieldGroup label="指定格式">
             <select
               value={format}
               onChange={(e) => setFormat(e.target.value)}
               style={selectStyle}
             >
-              <option value="">Auto-detect</option>
+              <option value="">自动检测</option>
               <option value="turtle">Turtle (.ttl)</option>
               <option value="xml">RDF/XML (.rdf, .owl)</option>
               <option value="nt">N-Triples (.nt)</option>
               <option value="json-ld">JSON-LD (.jsonld)</option>
             </select>
           </FieldGroup>
-          <FieldGroup label="Custom display name">
-            <Input value={customName} onChange={setCustomName} placeholder="Leave blank to use ontology title" />
+          <FieldGroup label="自定义显示名称">
+            <Input value={customName} onChange={setCustomName} placeholder="留空则使用本体标题" />
           </FieldGroup>
-          <FieldGroup label="Description">
-            <Input value={description} onChange={setDescription} placeholder="Optional description" />
+          <FieldGroup label="描述">
+            <Input value={description} onChange={setDescription} placeholder="可选描述" />
           </FieldGroup>
-          <FieldGroup label="Tags (comma-separated)">
-            <Input value={tags} onChange={setTags} placeholder="e.g. biology, upper-ontology" />
+          <FieldGroup label="标签（用逗号分隔）">
+            <Input value={tags} onChange={setTags} placeholder="例如 biology, upper-ontology" />
           </FieldGroup>
         </div>
       )}
@@ -316,7 +316,7 @@ function URLImportPanel({ onLoaded }: { onLoaded: () => void }) {
       {loadState === "success" && (
         <div style={successBoxStyle}>
           <CheckCircle2 size={13} />
-          <span>Ontology loaded successfully</span>
+          <span>本体加载成功</span>
         </div>
       )}
 
@@ -336,12 +336,12 @@ function URLImportPanel({ onLoaded }: { onLoaded: () => void }) {
           {loadState === "loading" ? (
             <>
               <Loader2 size={13} style={{ animation: "spin 1s linear infinite" }} />
-              Loading…
+              加载中…
             </>
           ) : (
             <>
               <Globe size={13} />
-              Load Ontology
+              加载本体
             </>
           )}
         </button>
@@ -395,7 +395,7 @@ function FileUploadPanel({ onLoaded }: { onLoaded: () => void }) {
         body: JSON.stringify({ content, ...(format ? { format } : {}) }),
       });
       if (!res.ok) {
-        const err = await res.json().catch(() => ({ detail: "Load failed" }));
+        const err = await res.json().catch(() => ({ detail: "加载失败" }));
         throw new Error(err.detail || "Load failed");
       }
       setLoadState("success");
@@ -430,7 +430,7 @@ function FileUploadPanel({ onLoaded }: { onLoaded: () => void }) {
         ) : (
           <>
             <div style={{ color: "#8fa8c6", fontSize: 13 }}>
-              Drop a file here or <span style={{ color: "#4aa3ff" }}>browse</span>
+              把文件拖到这里，或 <span style={{ color: "#4aa3ff" }}>选择文件</span>
             </div>
             <div style={{ color: "#5a7a9a", fontSize: 11 }}>
               .ttl · .rdf · .owl · .xml · .nt · .jsonld · .json · .n3
@@ -447,7 +447,7 @@ function FileUploadPanel({ onLoaded }: { onLoaded: () => void }) {
       </div>
 
       {content && (
-        <FieldGroup label="Format">
+        <FieldGroup label="格式">
           <select
             value={format}
             onChange={(e) => setFormat(e.target.value)}
@@ -464,7 +464,7 @@ function FileUploadPanel({ onLoaded }: { onLoaded: () => void }) {
       {loadState === "success" && (
         <div style={successBoxStyle}>
           <CheckCircle2 size={13} />
-          <span>Ontology loaded successfully — {fileName}</span>
+          <span>本体加载成功： {fileName}</span>
         </div>
       )}
 
@@ -484,12 +484,12 @@ function FileUploadPanel({ onLoaded }: { onLoaded: () => void }) {
           {loadState === "loading" ? (
             <>
               <Loader2 size={13} style={{ animation: "spin 1s linear infinite" }} />
-              Loading…
+              加载中…
             </>
           ) : (
             <>
               <FileUp size={13} />
-              Load File
+              加载文件
             </>
           )}
         </button>
@@ -531,7 +531,7 @@ function CreateNewPanel({ onLoaded }: { onLoaded: () => void }) {
         }),
       });
       if (!res.ok) {
-        const err = await res.json().catch(() => ({ detail: "Create failed" }));
+        const err = await res.json().catch(() => ({ detail: "创建失败" }));
         throw new Error(err.detail || "Create failed");
       }
       setCreateState("success");
@@ -557,29 +557,29 @@ function CreateNewPanel({ onLoaded }: { onLoaded: () => void }) {
               ...(createMode === m ? modeTabActive : modeTabIdle),
             }}
           >
-            {m === "scratch" ? "From Scratch" : m === "data" ? "From Data" : "From Text"}
+            {m === "scratch" ? "从零开始" : m === "data" ? "从数据生成" : "从文本生成"}
           </button>
         ))}
       </div>
 
-      <FieldGroup label="Display Name *">
-        <Input value={name} onChange={setName} placeholder="My Ontology" />
+      <FieldGroup label="显示名称 *">
+        <Input value={name} onChange={setName} placeholder="我的本体" />
       </FieldGroup>
 
-      <FieldGroup label="Namespace URI *">
+      <FieldGroup label="命名空间 URI *">
         <Input value={namespace} onChange={setNamespace} placeholder="https://example.org/onto/" />
       </FieldGroup>
 
-      <FieldGroup label="Description">
-        <Input value={description} onChange={setDescription} placeholder="Optional description" />
+      <FieldGroup label="描述">
+        <Input value={description} onChange={setDescription} placeholder="可选描述" />
       </FieldGroup>
 
-      <FieldGroup label="Tags (comma-separated)">
-        <Input value={tags} onChange={setTags} placeholder="e.g. internal, draft" />
+      <FieldGroup label="标签（用逗号分隔）">
+        <Input value={tags} onChange={setTags} placeholder="例如 internal, draft" />
       </FieldGroup>
 
       {createMode === "data" && (
-        <FieldGroup label="Sample Data (JSON or CSV)">
+        <FieldGroup label="示例数据（JSON 或 CSV）">
           <Textarea
             value={sampleData}
             onChange={setSampleData}
@@ -590,11 +590,11 @@ function CreateNewPanel({ onLoaded }: { onLoaded: () => void }) {
       )}
 
       {createMode === "text" && (
-        <FieldGroup label="Schema Requirements (natural language)">
+        <FieldGroup label="模式需求（自然语言描述）">
           <Textarea
             value={schemaText}
             onChange={setSchemaText}
-            placeholder="Describe the ontology you need. E.g.: I need an ontology for a hospital domain with patients, doctors, appointments, and medications."
+            placeholder="描述你需要的本体。例如：我需要一个医院领域的本体，包含患者、医生、预约和药品。"
             rows={6}
           />
         </FieldGroup>
@@ -603,7 +603,7 @@ function CreateNewPanel({ onLoaded }: { onLoaded: () => void }) {
       {createState === "success" && (
         <div style={successBoxStyle}>
           <CheckCircle2 size={13} />
-          <span>Ontology created and opened in the Registry</span>
+          <span>本体已创建，并已在注册表中打开</span>
         </div>
       )}
 
@@ -623,12 +623,12 @@ function CreateNewPanel({ onLoaded }: { onLoaded: () => void }) {
           {createState === "loading" ? (
             <>
               <Loader2 size={13} style={{ animation: "spin 1s linear infinite" }} />
-              Creating…
+              创建中…
             </>
           ) : (
             <>
               <Plus size={13} />
-              Create Ontology
+              创建本体
             </>
           )}
         </button>
@@ -649,9 +649,9 @@ export function OntologyLoader({ onLoaded, onClose }: LoaderProps) {
       <div style={modalStyle}>
         <div style={modalHeaderStyle}>
           <div>
-            <div style={{ color: "#ebf3ff", fontSize: 16, fontWeight: 800 }}>Load Ontology</div>
+            <div style={{ color: "#ebf3ff", fontSize: 16, fontWeight: 800 }}>加载本体</div>
             <div style={{ color: "#8fa8c6", fontSize: 12, marginTop: 2 }}>
-              Import from URL, upload a file, or create a new ontology
+              从 URL 导入、上传文件，或新建本体
             </div>
           </div>
           <button onClick={onClose} style={closeIconBtnStyle}>
@@ -670,11 +670,11 @@ export function OntologyLoader({ onLoaded, onClose }: LoaderProps) {
               }}
             >
               {m === "url" ? (
-                <><Globe size={12} /> URL Import</>
+                <><Globe size={12} /> URL 导入</>
               ) : m === "file" ? (
-                <><FileUp size={12} /> File Upload</>
+                <><FileUp size={12} /> 文件上传</>
               ) : (
-                <><Plus size={12} /> Create New</>
+                <><Plus size={12} /> 新建</>
               )}
             </button>
           ))}

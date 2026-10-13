@@ -100,7 +100,7 @@ function SchemePanel({
           <span style={{ color: "#e6edf3", fontSize: 14, fontWeight: 700 }}>{scheme.label}</span>
         </div>
         <span style={{ color: "#6a7f97", fontSize: 11 }}>
-          {isLoading ? "…" : `${totalConcepts} concept${totalConcepts !== 1 ? "s" : ""}`}
+          {isLoading ? "…" : `${totalConcepts} 个概念`}
         </span>
       </button>
 
@@ -108,10 +108,10 @@ function SchemePanel({
       {expanded ? (
         <div style={{ paddingTop: 4, paddingBottom: 8 }}>
           {isLoading ? (
-            <div style={{ padding: "8px 24px", color: "#6a7f97", fontSize: 12 }}>Loading concepts…</div>
+            <div style={{ padding: "8px 24px", color: "#6a7f97", fontSize: 12 }}>正在加载概念…</div>
           ) : hierarchy.length === 0 ? (
             <div style={{ padding: "8px 24px", color: "#6a7f97", fontSize: 12, fontStyle: "italic" }}>
-              No concepts found in this scheme.
+              这个概念体系中没有概念。
             </div>
           ) : (
             hierarchy.map((concept) => (
@@ -139,18 +139,18 @@ export function OntologySummaryTab({
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <BookOpen size={18} color="#d2a8ff" />
           <div>
-            <div style={{ color: "#ebf3ff", fontSize: 16, fontWeight: 700 }}>Ontology Summary</div>
+            <div style={{ color: "#ebf3ff", fontSize: 16, fontWeight: 700 }}>本体摘要</div>
             <div style={{ color: "#8b949e", fontSize: 12 }}>
               {isLoading
-                ? "Loading schemes…"
-                : `${schemes.length} vocabulary scheme${schemes.length !== 1 ? "s" : ""} loaded`}
+                ? "正在加载概念体系…"
+                : `已加载 ${schemes.length} 个词表概念体系`}
             </div>
           </div>
         </div>
         {onOpenVocabularyBrowser ? (
           <button onClick={onOpenVocabularyBrowser} style={openBrowserBtnStyle}>
             <ExternalLink size={12} />
-            <span>Open Full Browser</span>
+            <span>打开完整浏览器</span>
           </button>
         ) : null}
       </div>
@@ -167,9 +167,9 @@ export function OntologySummaryTab({
           ) : schemes.length === 0 ? (
             <div style={emptyStateStyle}>
               <BookOpen size={32} color="rgba(210,168,255,0.15)" />
-              <div style={{ color: "#8b949e", fontSize: 13, marginTop: 12 }}>No vocabulary schemes loaded</div>
+              <div style={{ color: "#8b949e", fontSize: 13, marginTop: 12 }}>还没有加载词表</div>
               <div style={{ color: "#6a7f97", fontSize: 12, marginTop: 4, textAlign: "center", maxWidth: 240 }}>
-                Import a .ttl or .rdf file via the Vocabulary Browser to see your ontology here.
+                在词表浏览器中导入 .ttl 或 .rdf 文件后，本体会显示在这里。
               </div>
             </div>
           ) : (
@@ -186,7 +186,7 @@ export function OntologySummaryTab({
           <div style={detailPanelStyle}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
               <div style={{ color: "#d2a8ff", fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" }}>
-                Concept Detail
+                概念详情
               </div>
               <button onClick={() => setSelectedConcept(null)} style={{ background: "transparent", border: "none", color: "#8b949e", cursor: "pointer", fontSize: 16 }}>×</button>
             </div>
@@ -195,7 +195,7 @@ export function OntologySummaryTab({
               {selectedConcept.pref_label}
             </h3>
             {selectedConcept.notation ? (
-              <div style={{ color: "#8b949e", fontSize: 12, marginBottom: 8 }}>Notation: {selectedConcept.notation}</div>
+              <div style={{ color: "#8b949e", fontSize: 12, marginBottom: 8 }}>记号： {selectedConcept.notation}</div>
             ) : null}
             <div style={{ color: "#6a7f97", fontSize: 11, fontFamily: "monospace", wordBreak: "break-all", marginBottom: 14 }}>
               {selectedConcept.uri}
@@ -203,14 +203,14 @@ export function OntologySummaryTab({
 
             {selectedConcept.description ? (
               <div style={detailSectionStyle}>
-                <div style={detailLabelStyle}>Description</div>
+                <div style={detailLabelStyle}>描述</div>
                 <div style={{ color: "#c6d4e3", fontSize: 13, lineHeight: 1.6 }}>{selectedConcept.description}</div>
               </div>
             ) : null}
 
             {selectedConcept.alt_labels?.length ? (
               <div style={detailSectionStyle}>
-                <div style={detailLabelStyle}>Alternative Labels</div>
+                <div style={detailLabelStyle}>别名</div>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                   {selectedConcept.alt_labels.map((label) => (
                     <span key={label} style={altLabelChipStyle}>{label}</span>
@@ -221,7 +221,7 @@ export function OntologySummaryTab({
 
             {(selectedConcept.children?.length ?? 0) > 0 ? (
               <div style={detailSectionStyle}>
-                <div style={detailLabelStyle}>Narrower Concepts ({selectedConcept.children!.length})</div>
+                <div style={detailLabelStyle}>下位概念 ({selectedConcept.children!.length})</div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                   {selectedConcept.children!.slice(0, 8).map((child) => (
                     <div
@@ -233,7 +233,7 @@ export function OntologySummaryTab({
                     </div>
                   ))}
                   {selectedConcept.children!.length > 8 ? (
-                    <div style={{ color: "#6a7f97", fontSize: 11 }}>+{selectedConcept.children!.length - 8} more</div>
+                    <div style={{ color: "#6a7f97", fontSize: 11 }}>+{selectedConcept.children!.length - 8} 个未显示</div>
                   ) : null}
                 </div>
               </div>

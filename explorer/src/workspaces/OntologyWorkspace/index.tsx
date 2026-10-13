@@ -24,11 +24,11 @@ export type OntologyHubTab =
   | "shacl";
 
 const TABS: { id: OntologyHubTab; label: string; icon: typeof GitMerge }[] = [
-  { id: "registry", label: "Registry", icon: BookMarked },
-  { id: "editor", label: "Editor", icon: Sliders },
-  { id: "versions", label: "Versions", icon: Layers },
-  { id: "alignments", label: "Alignments", icon: GitMerge },
-  { id: "health", label: "Health", icon: HeartPulse },
+  { id: "registry", label: "注册表", icon: BookMarked },
+  { id: "editor", label: "编辑器", icon: Sliders },
+  { id: "versions", label: "版本", icon: Layers },
+  { id: "alignments", label: "对齐", icon: GitMerge },
+  { id: "health", label: "健康度", icon: HeartPulse },
   { id: "shacl", label: "SHACL", icon: Shield },
 ];
 

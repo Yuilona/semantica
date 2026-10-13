@@ -65,29 +65,29 @@ export const ImportDropzone: React.FC = () => {
         {importMutation.isPending ? (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', color: '#8b949e' }}>
             <Loader2 className="animate-spin" size={20} style={{ marginBottom: 6 }} />
-            <span style={{ fontSize: 12 }}>Uploading {file?.name}…</span>
+            <span style={{ fontSize: 12 }}>上传中 {file?.name}…</span>
           </div>
         ) : importResult ? (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', color: '#3fb950' }}>
             <CheckCircle2 size={20} style={{ marginBottom: 6 }} />
-            <span style={{ fontSize: 12, fontWeight: 500 }}>Import Successful!</span>
+            <span style={{ fontSize: 12, fontWeight: 500 }}>导入成功！</span>
             <span style={{ fontSize: 11, marginTop: 2, color: '#56d364' }}>
-              +{importResult.nodes_added} concepts · +{importResult.edges_added} links
+              +{importResult.nodes_added} 个概念 · +{importResult.edges_added} 条链接
             </span>
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', color: '#8b949e' }}>
             <UploadCloud size={20} style={{ marginBottom: 6, color: isDragActive ? '#58a6ff' : '#484f58' }} />
             <span style={{ fontSize: 12, fontWeight: 500, color: '#c9d1d9' }}>
-              {isDragActive ? "Drop here…" : "Import Vocabulary"}
+              {isDragActive ? "拖到这里…" : "导入词表"}
             </span>
-            <span style={{ fontSize: 11, marginTop: 2 }}>.ttl or .rdf</span>
+            <span style={{ fontSize: 11, marginTop: 2 }}>.ttl 或 .rdf</span>
           </div>
         )}
       </div>
       {importMutation.isError && (
         <p style={{ color: '#f85149', fontSize: 11, marginTop: 6, textAlign: 'center' }}>
-          Upload failed. Check console.
+          上传失败，请查看控制台。
         </p>
       )}
     </div>

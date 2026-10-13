@@ -12,39 +12,39 @@ export const GRAPH_LOAD_STAGE_SEQUENCE: Exclude<GraphLoadPhase, "ready">[] = [
 export function getGraphLoadTitle(phase: GraphLoadPhase): string {
   switch (phase) {
     case "bootstrapping":
-      return "Preparing graph session";
+      return "正在准备图谱会话";
     case "fetching_nodes":
-      return "Loading nodes";
+      return "正在加载节点";
     case "fetching_edges":
-      return "Loading relationships";
+      return "正在加载关系";
     case "computing_styling":
-      return "Computing node styling";
+      return "正在计算节点样式";
     case "hydrating_scene":
-      return "Hydrating graph scene";
+      return "正在构建图谱场景";
     case "stabilizing_layout":
-      return "Stabilizing layout";
+      return "正在稳定布局";
     case "ready":
     default:
-      return "Graph ready";
+      return "图谱已就绪";
   }
 }
 
 export function getGraphLoadStageLabel(phase: Exclude<GraphLoadPhase, "ready">): string {
   switch (phase) {
     case "bootstrapping":
-      return "Prepare";
+      return "准备";
     case "fetching_nodes":
-      return "Nodes";
+      return "节点";
     case "fetching_edges":
-      return "Relations";
+      return "关系";
     case "computing_styling":
-      return "Styling";
+      return "样式";
     case "hydrating_scene":
-      return "Scene";
+      return "场景";
     case "stabilizing_layout":
-      return "Layout";
+      return "布局";
     default:
-      return "Stage";
+      return "阶段";
   }
 }
 

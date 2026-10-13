@@ -78,6 +78,7 @@ import type {
   GraphTemporalState,
   GraphViewMode,
 } from "./types";
+import { typeLabel } from "../../typeLabels";
 import type { GraphSceneGraph, GraphSceneRuntime } from "./scene";
 
 export type { GraphViewMode } from "./types";
@@ -578,7 +579,7 @@ function buildEffectAvailability(
             enabled: true,
             available: false,
             reason: "Disabled by zoom tier",
-            detail: `Requires ${GRAPH_THEME.effects.pathPulse.minZoomTier}`,
+            detail: `需要缩放级别 ${GRAPH_THEME.effects.pathPulse.minZoomTier}`,
           }
         : visiblePathSegments === 0
           ? { enabled: true, available: false, reason: "Path is off-screen" }
@@ -587,7 +588,7 @@ function buildEffectAvailability(
                 enabled: true,
                 available: false,
                 reason: "Disabled by path size cap",
-                detail: `${visiblePathSegments} visible segments`,
+                detail: `可见 ${visiblePathSegments} 段`,
                 visibleSegments: visiblePathSegments,
                 segmentCap: GRAPH_THEME.effects.pathPulse.maxSegments,
               }
@@ -610,7 +611,7 @@ function buildEffectAvailability(
             enabled: true,
             available: false,
             reason: "Disabled by zoom tier",
-            detail: `Requires ${GRAPH_THEME.effects.pathFlow.minZoomTier}`,
+            detail: `需要缩放级别 ${GRAPH_THEME.effects.pathFlow.minZoomTier}`,
           }
         : visiblePathSegments === 0
           ? { enabled: true, available: false, reason: "Path is off-screen" }
@@ -619,7 +620,7 @@ function buildEffectAvailability(
                 enabled: true,
                 available: false,
                 reason: "Disabled by path size cap",
-                detail: `${visiblePathSegments} visible segments`,
+                detail: `可见 ${visiblePathSegments} 段`,
                 visibleSegments: visiblePathSegments,
                 segmentCap: GRAPH_THEME.effects.pathFlow.maxSegments,
               }
@@ -642,7 +643,7 @@ function buildEffectAvailability(
             enabled: true,
             available: false,
             reason: "Disabled by zoom tier",
-            detail: `Requires ${GRAPH_THEME.effects.lens.minZoomTier}`,
+            detail: `需要缩放级别 ${GRAPH_THEME.effects.lens.minZoomTier}`,
           }
         : { enabled: true, available: true, reason: "Ready" };
 
@@ -657,7 +658,7 @@ function buildEffectAvailability(
             enabled: true,
             available: false,
             reason: "Disabled by zoom tier",
-            detail: `Requires ${GRAPH_THEME.effects.temporalEmphasis.minZoomTier}`,
+            detail: `需要缩放级别 ${GRAPH_THEME.effects.temporalEmphasis.minZoomTier}`,
           }
         : { enabled: true, available: true, reason: "Ready" };
 
@@ -670,7 +671,7 @@ function buildEffectAvailability(
           enabled: true,
           available: false,
           reason: "Disabled by zoom tier",
-          detail: `Requires ${GRAPH_THEME.effects.semanticRegions.minZoomTier}`,
+          detail: `需要缩放级别 ${GRAPH_THEME.effects.semanticRegions.minZoomTier}`,
         }
       : !analytics?.semanticRegions.ready
         ? {
@@ -689,7 +690,7 @@ function buildEffectAvailability(
           enabled: true,
           available: false,
           reason: "Disabled by zoom tier",
-          detail: `Requires ${GRAPH_THEME.effects.contours.minZoomTier}`,
+          detail: `需要缩放级别 ${GRAPH_THEME.effects.contours.minZoomTier}`,
         }
       : !analytics?.centrality.ready
         ? {
@@ -1227,7 +1228,7 @@ function applySceneState(
       // saw, so enabling renderEdgeLabels alone left edges blank.
       // Use || rather than ?? so that an empty-string edgeType (possible
       // when the API returns type: "") does not produce a blank label.
-      label: resolvedStyle.hidden ? undefined : String(attrs.edgeType || data.label || ""),
+      label: resolvedStyle.hidden ? undefined : typeLabel(String(attrs.edgeType || data.label || "")),
     };
   });
 
@@ -2664,7 +2665,7 @@ export const GraphCanvas = forwardRef<GraphCanvasHandle, GraphCanvasProps>(
               letterSpacing: "0.01em",
             }}
           >
-            Fit View
+            适应视图
           </button>
         ) : null}
       </div>

@@ -18,28 +18,28 @@ type EffectRowConfig = {
 const EFFECT_ROWS: EffectRowConfig[] = [
   {
     key: "pathPulseEnabled",
-    label: "Path Pulse",
-    description: "Animated pulse on the active selected path.",
+    label: "路径脉冲",
+    description: "在当前选中的路径上显示脉冲动画。",
   },
   {
     key: "pathFlowEnabled",
-    label: "Path Flow",
-    description: "Directional flow accents along the active selected path.",
+    label: "路径流向",
+    description: "沿当前选中的路径显示方向流动效果。",
   },
   {
     key: "lensEnabled",
-    label: "Neighborhood Lens",
-    description: "Local emphasis around the hovered or selected node.",
+    label: "邻域透镜",
+    description: "突出显示悬停或选中节点的周围区域。",
   },
   {
     key: "edgeLabelsEnabled",
-    label: "Edge Labels",
-    description: "Draw the relationship type on graph edges. Off restores label-free edges on dense graphs.",
+    label: "边标签",
+    description: "在边上显示关系类型。关闭后，稠密图上的边不显示标签。",
   },
   {
     key: "legendEnabled",
-    label: "Semantic Legend",
-    description: "Compact semantic group legend for graph orientation.",
+    label: "语义图例",
+    description: "紧凑的语义分组图例，帮助识别图中各类节点。",
   },
 ];
 
@@ -57,7 +57,7 @@ const EFFECT_AVAILABILITY_KEYS: Partial<Record<GraphEffectToggle, keyof GraphDia
 function renderAvailabilityText(availability: GraphEffectAvailability) {
   if (availability.available) {
     if (typeof availability.visibleSegments === "number" && typeof availability.segmentCap === "number") {
-      return `${availability.reason} · ${availability.visibleSegments}/${availability.segmentCap} segments`;
+      return `${availability.reason} · ${availability.visibleSegments}/${availability.segmentCap} 段`;
     }
     return availability.reason;
   }
@@ -104,7 +104,7 @@ function EffectToggleRow({
         <div style={rowMetaStyle}>{renderAvailabilityText(availability)}</div>
       </div>
       <button type="button" onClick={onToggle} style={checked ? toggleButtonActiveStyle : toggleButtonStyle}>
-        {checked ? "On" : "Off"}
+        {checked ? "开" : "关"}
       </button>
     </div>
   );
@@ -118,8 +118,8 @@ export const explorationEffectsPlugin: GraphPlugin = {
   toolbarItems: (context) => [
     {
       id: "effects-toggle",
-      label: "Effects",
-      title: "Open exploration effects controls",
+      label: "效果",
+      title: "打开探索效果设置",
       active: context.isPanelOpen(EFFECTS_PANEL_ID),
       order: 18,
       onClick: () => context.dispatchAction({ type: "togglePanel", panelId: EFFECTS_PANEL_ID }),
@@ -137,7 +137,7 @@ export const explorationEffectsPlugin: GraphPlugin = {
 
     return {
       id: EFFECTS_PANEL_ID,
-      title: "Effects",
+      title: "效果",
       placement: "bottom",
       order: 8,
       defaultOpen: false,
@@ -145,10 +145,10 @@ export const explorationEffectsPlugin: GraphPlugin = {
       preferredHeight: 320,
       content: (
         <div style={panelBodyStyle}>
-          <div style={panelEyebrowStyle}>Exploration effects</div>
+          <div style={panelEyebrowStyle}>探索效果</div>
 
           <div style={sectionStyle}>
-            <div style={sectionTitleStyle}>Path and focus</div>
+            <div style={sectionTitleStyle}>路径与聚焦</div>
             {EFFECT_ROWS.map((row) => (
               <EffectToggleRow
                 key={row.key}
@@ -171,7 +171,7 @@ export const explorationEffectsPlugin: GraphPlugin = {
 
           {effectsState.legendEnabled ? (
             <div style={sectionStyle}>
-              <div style={sectionTitleStyle}>Semantic legend</div>
+              <div style={sectionTitleStyle}>语义图例</div>
               {legendItems.length ? (
                 <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                   {legendItems.map((item) => (
@@ -185,23 +185,23 @@ export const explorationEffectsPlugin: GraphPlugin = {
                       />
                       <div style={{ minWidth: 0, flex: 1 }}>
                         <div style={rowTitleStyle}>{item.group}</div>
-                        <div style={rowMetaStyle}>{item.count.toLocaleString()} nodes</div>
+                        <div style={rowMetaStyle}>{item.count.toLocaleString()} 个节点</div>
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div style={emptyTextStyle}>Legend data will populate when graph metadata is available.</div>
+                <div style={emptyTextStyle}>图谱元数据加载后会显示图例。</div>
               )}
             </div>
           ) : null}
 
           {import.meta.env.DEV ? (
             <div style={sectionStyle}>
-              <div style={sectionTitleStyle}>Diagnostics</div>
+              <div style={sectionTitleStyle}>诊断</div>
               <EffectToggleRow
-                label="Dev Diagnostics"
-                description="Inspect plugin, interaction, and effect gating state."
+                label="开发诊断"
+                description="查看插件、交互和效果开关的状态。"
                 checked={effectsState.diagnosticsEnabled}
                 availability={
                   availability?.diagnostics ?? {
@@ -214,7 +214,7 @@ export const explorationEffectsPlugin: GraphPlugin = {
               />
               {effectsState.diagnosticsEnabled && diagnosticsSnapshot ? (
                 <details style={detailsStyle}>
-                  <summary style={summaryStyle}>Runtime snapshot</summary>
+                  <summary style={summaryStyle}>运行时快照</summary>
                   <pre style={diagnosticsPreStyle}>
                     {JSON.stringify(diagnosticsSnapshot, null, 2)}
                   </pre>

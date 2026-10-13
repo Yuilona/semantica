@@ -18,11 +18,11 @@ export function ExploreWorkspaceTabs({
       </button>
       {agentMemoryAvailable ? (
         <button className="workspace-tab" data-active={activeView === 'memories'} onClick={() => onSelect('memories')}>
-          Memories
+          记忆
         </button>
       ) : null}
       <button className="workspace-tab" data-active={activeView === 'vocabulary'} onClick={() => onSelect('vocabulary')}>
-        Vocabulary Browser
+        词表浏览器
       </button>
     </>
   );

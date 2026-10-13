@@ -44,7 +44,7 @@ function normalizeError(failure: unknown): MarkdownEditorError {
   if (failure instanceof MarkdownClientError) return failure;
   return {
     kind: "network",
-    message: "The Markdown service could not be reached. Your draft was kept.",
+    message: "无法连接 Markdown 服务，草稿已保留。",
   };
 }
 
@@ -148,7 +148,7 @@ export function useMarkdownEditor({
     if (!resource || saving) return;
     if (
       dirty
-      && !window.confirm("Discard this draft and reload the latest applied version?")
+      && !window.confirm("放弃此草稿并重新加载最新应用的版本吗？")
     ) return;
     await beginEdit();
   }, [beginEdit, dirty, resource, saving]);

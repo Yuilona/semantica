@@ -249,7 +249,7 @@ export function MarkdownContentViewer({
   return (
     <div className={className} style={viewerContainerStyle}>
       <div style={viewerHeaderStyle}>
-        <div style={{ display: "flex", gap: 4 }} role="tablist" aria-label="Content view mode">
+        <div style={{ display: "flex", gap: 4 }} role="tablist" aria-label="内容显示模式">
           <button
             type="button"
             role="tab"
@@ -263,7 +263,7 @@ export function MarkdownContentViewer({
             style={{ ...tabBtnStyle, ...(activeMode === "preview" ? activeTabBtnStyle : {}) }}
           >
             <Eye size={12} style={{ marginRight: 5 }} aria-hidden="true" />
-            Preview
+            预览
           </button>
           <button
             type="button"
@@ -278,22 +278,22 @@ export function MarkdownContentViewer({
             style={{ ...tabBtnStyle, ...(activeMode === "source" ? activeTabBtnStyle : {}) }}
           >
             <Code2 size={12} style={{ marginRight: 5 }} aria-hidden="true" />
-            Source
+            源码
           </button>
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
           {hasContent && (
-            <button type="button" onClick={() => void handleCopy()} style={copyBtnStyle} title="Copy raw content">
+            <button type="button" onClick={() => void handleCopy()} style={copyBtnStyle} title="复制原始内容">
               {copied ? (
                 <>
                   <Check size={12} color="#3fb950" style={{ marginRight: 4 }} aria-hidden="true" />
-                  <span style={{ color: "#3fb950", fontSize: 11 }}>Copied</span>
+                  <span style={{ color: "#3fb950", fontSize: 11 }}>已复制</span>
                 </>
               ) : (
                 <>
                   <Copy size={12} style={{ marginRight: 4 }} aria-hidden="true" />
-                  <span style={{ fontSize: 11 }}>Copy</span>
+                  <span style={{ fontSize: 11 }}>复制</span>
                 </>
               )}
             </button>
@@ -301,26 +301,26 @@ export function MarkdownContentViewer({
           {resource && !editing && !loading ? (
             <button type="button" onClick={() => void handleEdit()} style={copyBtnStyle}>
               <Pencil size={12} style={{ marginRight: 4 }} aria-hidden="true" />
-              Edit
+              编辑
             </button>
           ) : null}
           {loading ? (
             <button type="button" disabled style={{ ...copyBtnStyle, opacity: 0.65 }}>
               <Loader2 size={12} className="animate-spin" style={{ marginRight: 4 }} aria-hidden="true" />
-              Loading…
+              加载中…
             </button>
           ) : null}
           {editing ? (
             <>
               <button type="button" onClick={handleCancel} disabled={saving} style={copyBtnStyle}>
                 <X size={12} style={{ marginRight: 4 }} aria-hidden="true" />
-                Cancel
+                取消
               </button>
               <button
                 type="button"
                 onClick={() => void handleApply()}
                 disabled={saving || !dirty}
-                title={!dirty ? "Make a change before applying" : undefined}
+                title={!dirty ? "先做修改再应用" : undefined}
                 style={{ ...saveBtnStyle, opacity: saving || !dirty ? 0.55 : 1 }}
               >
                 {saving ? (
@@ -328,7 +328,7 @@ export function MarkdownContentViewer({
                 ) : (
                   <Check size={12} style={{ marginRight: 4 }} aria-hidden="true" />
                 )}
-                {saving ? "Applying…" : "Apply"}
+                {saving ? "应用中…" : "应用"}
               </button>
             </>
           ) : null}
@@ -341,7 +341,7 @@ export function MarkdownContentViewer({
           {error.kind === "conflict" ? (
             <button type="button" onClick={() => void editor.reloadLatest()} style={errorActionStyle}>
               <RefreshCw size={12} style={{ marginRight: 4 }} aria-hidden="true" />
-              Reload latest
+              重新加载最新版本
             </button>
           ) : null}
         </div>
@@ -365,7 +365,7 @@ export function MarkdownContentViewer({
       >
         {activeMode === "source" && editing ? (
           <textarea
-            aria-label="Markdown source"
+            aria-label="Markdown 源码"
             aria-describedby={error ? "markdown-editor-error" : undefined}
             aria-invalid={error?.kind === "validation" || undefined}
             value={session?.draft ?? ""}
@@ -375,7 +375,7 @@ export function MarkdownContentViewer({
             style={editorStyle}
           />
         ) : !hasContent ? (
-          <div style={emptyTextStyle}>No content available for this node.</div>
+          <div style={emptyTextStyle}>这个节点没有内容。</div>
         ) : activeMode === "source" ? (
           <pre style={sourcePreStyle}>
             <code style={sourceCodeStyle}>{rawContent}</code>
@@ -440,9 +440,9 @@ const MARKDOWN_COMPONENTS: Components = {
     );
   },
   img: ({ src, alt }) => (
-    <span style={imageBadgeStyle} title={src || "Image"}>
+    <span style={imageBadgeStyle} title={src || "图片"}>
       <ImageIcon size={12} style={{ marginRight: 5 }} />
-      <span>Image: {alt || src || "unlabeled"}</span>
+      <span>图片： {alt || src || "unlabeled"}</span>
     </span>
   ),
   h1: ({ children }) => <h1 style={h1Style}>{children}</h1>,

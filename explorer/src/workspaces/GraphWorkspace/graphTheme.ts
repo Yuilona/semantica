@@ -607,7 +607,7 @@ export const GRAPH_THEME: GraphTheme = {
     },
     entityShapes: {
       entity: {
-        label: "Entity",
+        label: "实体",
         shapeKind: 0,
         aspectRatio: 1,
         fillAlpha: 0.9,
@@ -617,7 +617,7 @@ export const GRAPH_THEME: GraphTheme = {
         minSize: 0,
       },
       biomolecule: {
-        label: "Biomolecule",
+        label: "生物分子",
         shapeKind: 1,
         aspectRatio: 1,
         fillAlpha: 0.9,
@@ -627,7 +627,7 @@ export const GRAPH_THEME: GraphTheme = {
         minSize: 1.2,
       },
       condition: {
-        label: "Condition",
+        label: "病症",
         shapeKind: 2,
         aspectRatio: 1.04,
         fillAlpha: 0.88,
@@ -637,7 +637,7 @@ export const GRAPH_THEME: GraphTheme = {
         minSize: 1.6,
       },
       compound: {
-        label: "Compound",
+        label: "化合物",
         shapeKind: 3,
         aspectRatio: 1.48,
         fillAlpha: 0.88,
@@ -647,7 +647,7 @@ export const GRAPH_THEME: GraphTheme = {
         minSize: 1.4,
       },
       process: {
-        label: "Process",
+        label: "过程",
         shapeKind: 4,
         aspectRatio: 1.1,
         fillAlpha: 0.87,
@@ -657,7 +657,7 @@ export const GRAPH_THEME: GraphTheme = {
         minSize: 1.4,
       },
       community: {
-        label: "Community",
+        label: "社区",
         shapeKind: 5,
         aspectRatio: 1,
         fillAlpha: 0.68,

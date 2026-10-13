@@ -59,7 +59,7 @@ async function responseError(response: Response): Promise<MarkdownClientError> {
         : "save";
   return new MarkdownClientError({
     kind,
-    message: detail.message || `Markdown request failed (${response.status}).`,
+    message: detail.message || `Markdown 请求失败（${response.status}）。`,
     field: detail.field,
     currentRevision: detail.current_revision,
   });
@@ -76,7 +76,7 @@ async function request<T>(input: RequestInfo | URL, init?: RequestInit): Promise
     if (error instanceof MarkdownClientError) throw error;
     throw new MarkdownClientError({
       kind: "network",
-      message: "The Markdown service could not be reached. Your draft was kept.",
+      message: "无法连接 Markdown 服务，草稿已保留。",
     });
   }
 }

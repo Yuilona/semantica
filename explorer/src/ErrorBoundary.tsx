@@ -73,12 +73,12 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
         >
           <AlertCircle size={32} style={{ marginBottom: 4, opacity: 0.8 }} />
           <div style={{ fontWeight: 500, fontSize: '15px' }}>
-            Something went wrong in this view.
+            此视图出错了。
           </div>
           <div style={{ fontSize: '13px', opacity: 0.7, maxWidth: 450, textAlign: 'center', marginBottom: 8, lineHeight: 1.5 }}>
             {maxRetriesReached 
-              ? "This view continues to encounter a critical error. Please switch to another workspace or reload the page to restore functionality."
-              : "An unexpected problem occurred while rendering this workspace. Your data is safe, but this view cannot be displayed."}
+              ? "此视图持续出现严重错误。请切换到其他工作区，或重新加载页面。"
+              : "渲染此工作区时出现意外问题。数据没有受影响，但此视图无法显示。"}
           </div>
           {!maxRetriesReached ? (
             <button 
@@ -89,7 +89,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               }}
               onClick={this.resetErrorBoundary}
             >
-              Try Again
+              重试
             </button>
           ) : (
             <button 
@@ -100,7 +100,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               }}
               onClick={() => window.location.reload()}
             >
-              Reload Application
+              重新加载应用
             </button>
           )}
         </div>

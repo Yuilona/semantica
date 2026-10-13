@@ -136,7 +136,7 @@ function RegistryRow({
 
   const handleRemove = async (ev: React.MouseEvent) => {
     ev.stopPropagation();
-    if (!window.confirm(`Remove "${entry.name}" from the registry?`)) return;
+    if (!window.confirm(`确定要从注册表中移除“${entry.name}”吗？`)) return;
     setBusyRemove(true);
     await onRemove(entry.uri);
     setBusyRemove(false);
@@ -162,7 +162,7 @@ function RegistryRow({
           <StatusBadge status={entry.status} />
           <FormatBadge format={entry.format} />
           {!entry.enabled && (
-            <span style={disabledBadgeStyle}>Disabled</span>
+            <span style={disabledBadgeStyle}>已停用</span>
           )}
         </div>
         <div style={rowUriStyle}>{entry.uri}</div>
@@ -181,14 +181,14 @@ function RegistryRow({
       </div>
 
       <div style={rowStatsStyle}>
-        <Stat value={entry.class_count} label="Classes" />
-        <Stat value={entry.concept_count} label="Concepts" />
-        <Stat value={entry.property_count} label="Props" />
+        <Stat value={entry.class_count} label="类" />
+        <Stat value={entry.concept_count} label="概念" />
+        <Stat value={entry.property_count} label="属性" />
       </div>
 
       <div style={rowActionsStyle}>
         <button
-          title={entry.enabled ? "Disable" : "Enable"}
+          title={entry.enabled ? "停用" : "启用"}
           onClick={handleToggle}
           disabled={busyToggle}
           style={actionBtnStyle}
@@ -204,7 +204,7 @@ function RegistryRow({
 
         {entry.source_url && (
           <button
-            title="Re-fetch from source URL"
+            title="从源 URL 重新获取"
             onClick={handleRefresh}
             disabled={busyRefresh}
             style={actionBtnStyle}
@@ -218,7 +218,7 @@ function RegistryRow({
         )}
 
         <button
-          title="Remove from registry"
+          title="从注册表中移除"
           onClick={handleRemove}
           disabled={busyRemove}
           style={{ ...actionBtnStyle, color: "#ff9daf" }}
@@ -309,7 +309,7 @@ export function OntologyManager() {
       const res = await fetch(`/api/ontology/${encodeURIComponent(uri)}/toggle`, {
         method: "PATCH",
       });
-      if (!res.ok) throw new Error("Toggle failed");
+      if (!res.ok) throw new Error("切换失败");
       const data = await res.json();
       setEntries((prev) =>
         prev.map((e) => (e.uri === uri ? { ...e, enabled: data.enabled } : e))
@@ -324,7 +324,7 @@ export function OntologyManager() {
       const res = await fetch(`/api/ontology/${encodeURIComponent(uri)}/refresh`, {
         method: "POST",
       });
-      if (!res.ok) throw new Error("Refresh failed");
+      if (!res.ok) throw new Error("刷新失败");
       flashMsg("ok", "Ontology refreshed");
       fetchRegistry();
     } catch {
@@ -337,7 +337,7 @@ export function OntologyManager() {
       const res = await fetch(`/api/ontology/${encodeURIComponent(uri)}`, {
         method: "DELETE",
       });
-      if (!res.ok) throw new Error("Remove failed");
+      if (!res.ok) throw new Error("移除失败");
       setEntries((prev) => prev.filter((e) => e.uri !== uri));
       if (selectedEntry?.uri === uri) setSelectedEntry(null);
       flashMsg("ok", "Removed from registry");
@@ -383,7 +383,7 @@ export function OntologyManager() {
             <input
               value={searchQ}
               onChange={(e) => setSearchQ(e.target.value)}
-              placeholder="Search ontologies by name, URI, or namespace…"
+              placeholder="按名称、URI 或命名空间搜索本体…"
               style={searchInputStyle}
             />
           </div>
@@ -398,7 +398,7 @@ export function OntologyManager() {
                   ...(statusFilter === f ? filterPillActive : filterPillIdle),
                 }}
               >
-                {f === "all" ? "All" : f.toUpperCase()}
+                {f === "all" ? "全部" : f.toUpperCase()}
               </button>
             ))}
           </div>
@@ -412,14 +412,14 @@ export function OntologyManager() {
               }}
             >
               <Search size={13} />
-              Entity Search
+              实体搜索
             </button>
             <button
               onClick={() => setShowLoader(true)}
               style={primaryToolBtnStyle}
             >
               <Plus size={13} />
-              Load Ontology
+              加载本体
             </button>
           </div>
         </div>
@@ -455,23 +455,23 @@ export function OntologyManager() {
             {loading ? (
               <div style={centerStyle}>
                 <Loader2 size={22} color="#4aa3ff" style={{ animation: "spin 1s linear infinite" }} />
-                <span style={{ color: "#8fa8c6", fontSize: 13, marginTop: 10 }}>Loading registry…</span>
+                <span style={{ color: "#8fa8c6", fontSize: 13, marginTop: 10 }}>正在加载注册表…</span>
               </div>
             ) : filteredEntries.length === 0 ? (
               <div style={emptyStateStyle}>
                 <BookMarked size={36} color="rgba(74,163,255,0.18)" />
                 <div style={{ color: "#8fa8c6", fontSize: 14, fontWeight: 600, marginTop: 14 }}>
-                  {searchQ ? "No ontologies match your search" : "No ontologies loaded yet"}
+                  {searchQ ? "没有符合搜索条件的本体" : "还没有加载任何本体"}
                 </div>
                 <div style={{ color: "#6a7f97", fontSize: 12, marginTop: 6, textAlign: "center", maxWidth: 300, lineHeight: 1.6 }}>
                   {searchQ
-                    ? "Try a different search term or clear the filter."
-                    : <>Import from a URL, upload a file, or create a new ontology to get started. Click <strong style={{ color: "#7fd0ff" }}>Load Ontology</strong> above.</>}
+                    ? "换个关键词，或清除筛选条件。"
+                    : <>可以从 URL 导入、上传文件或新建本体。点击上方的 <strong style={{ color: "#7fd0ff" }}>加载本体</strong> 开始。</>}
                 </div>
                 {!searchQ && (
                   <button onClick={() => setShowLoader(true)} style={{ ...primaryToolBtnStyle, marginTop: 18 }}>
                     <Plus size={13} />
-                    Load Ontology
+                    加载本体
                   </button>
                 )}
               </div>
@@ -479,7 +479,7 @@ export function OntologyManager() {
               <div style={listStyle}>
                 <div style={listHeaderStyle}>
                   <span style={listHeaderTextStyle}>
-                    {filteredEntries.length} ontolog{filteredEntries.length === 1 ? "y" : "ies"}
+                    {filteredEntries.length} 个本体
                   </span>
                 </div>
                 {filteredEntries.map((entry) => (
@@ -501,7 +501,7 @@ export function OntologyManager() {
           {rightPanel === "search" && (
             <div style={rightPanelStyle}>
               <div style={rightPanelHeaderStyle}>
-                <span style={rightPanelTitleStyle}>Entity Search</span>
+                <span style={rightPanelTitleStyle}>实体搜索</span>
                 <button onClick={() => setRightPanel("none")} style={closePanelBtnStyle}>×</button>
               </div>
               <OntologySearch />
@@ -519,7 +519,7 @@ export function OntologyManager() {
                       style={browseBtnStyle}
                     >
                       <BookOpen size={12} />
-                      Browse SKOS
+                      浏览 SKOS
                     </button>
                   )}
                   <button onClick={() => setSelectedEntry(null)} style={closePanelBtnStyle}>×</button>
@@ -532,14 +532,14 @@ export function OntologyManager() {
                   </span>
                 </DetailSection>
                 {selectedEntry.description && (
-                  <DetailSection label="Description">
+                  <DetailSection label="描述">
                     <span style={{ color: "#c6d4e3", fontSize: 13, lineHeight: 1.6 }}>
                       {selectedEntry.description}
                     </span>
                   </DetailSection>
                 )}
                 {selectedEntry.source_url && (
-                  <DetailSection label="Source URL">
+                  <DetailSection label="源 URL">
                     <a
                       href={selectedEntry.source_url}
                       target="_blank"
@@ -551,24 +551,24 @@ export function OntologyManager() {
                   </DetailSection>
                 )}
                 {selectedEntry.version && (
-                  <DetailSection label="Version">
+                  <DetailSection label="版本">
                     <span style={{ color: "#c6d4e3", fontSize: 12 }}>{selectedEntry.version}</span>
                   </DetailSection>
                 )}
                 {selectedEntry.loaded_at && (
-                  <DetailSection label="Loaded at">
+                  <DetailSection label="加载时间">
                     <span style={{ color: "#c6d4e3", fontSize: 12 }}>
                       {new Date(selectedEntry.loaded_at).toLocaleString()}
                     </span>
                   </DetailSection>
                 )}
                 <div style={statRowStyle}>
-                  <StatBlock value={selectedEntry.class_count} label="Classes" color="#d2a8ff" />
-                  <StatBlock value={selectedEntry.concept_count} label="Concepts" color="#9ee8d7" />
-                  <StatBlock value={selectedEntry.property_count} label="Properties" color="#f2b66d" />
+                  <StatBlock value={selectedEntry.class_count} label="类" color="#d2a8ff" />
+                  <StatBlock value={selectedEntry.concept_count} label="概念" color="#9ee8d7" />
+                  <StatBlock value={selectedEntry.property_count} label="属性" color="#f2b66d" />
                 </div>
                 {selectedEntry.tags.length > 0 && (
-                  <DetailSection label="Tags">
+                  <DetailSection label="标签">
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                       {selectedEntry.tags.map((tag) => (
                         <span key={tag} style={tagChipStyle}>{tag}</span>
@@ -583,11 +583,11 @@ export function OntologyManager() {
           {rightPanel === "skos" && selectedEntry && (
             <div style={rightPanelStyle}>
               <div style={rightPanelHeaderStyle}>
-                <span style={rightPanelTitleStyle}>SKOS — {selectedEntry.name}</span>
+                <span style={rightPanelTitleStyle}>SKOS： {selectedEntry.name}</span>
                 <div style={{ display: "flex", gap: 6 }}>
                   <button onClick={() => setRightPanel("none")} style={browseBtnStyle}>
                     <Layers size={12} />
-                    Registry Detail
+                    注册表详情
                   </button>
                   <button onClick={() => setRightPanel("none")} style={closePanelBtnStyle}>×</button>
                 </div>

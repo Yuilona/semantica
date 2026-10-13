@@ -6,7 +6,7 @@ const TEMPORAL_PANEL_ID = "temporal-panel";
 
 function formatTemporalLabel(value: Date | null) {
   if (!value) {
-    return "No time selected";
+    return "未选择时间";
   }
   return `${value.getFullYear()}/${String(value.getMonth() + 1).padStart(2, "0")}`;
 }
@@ -19,8 +19,8 @@ export const temporalOverlayPlugin: GraphPlugin = {
   toolbarItems: (context) => [
     {
       id: "temporal-toggle",
-      label: "Temporal",
-      title: "Toggle temporal context panel",
+      label: "时态",
+      title: "显示或隐藏时态面板",
       active: context.isPanelOpen(TEMPORAL_PANEL_ID),
       order: 40,
       onClick: () => context.dispatchAction({ type: "togglePanel", panelId: TEMPORAL_PANEL_ID }),
@@ -58,10 +58,10 @@ export const temporalOverlayPlugin: GraphPlugin = {
             pointerEvents: "none",
           }}
         >
-          <span style={{ color: "#7fc6ff", fontWeight: 700 }}>Temporal</span>
+          <span style={{ color: "#7fc6ff", fontWeight: 700 }}>时态</span>
           <span>{label}</span>
           {typeof temporal.activeNodeCount === "number" ? (
-            <span style={{ color: "#8ea4be" }}>{temporal.activeNodeCount.toLocaleString()} active</span>
+            <span style={{ color: "#8ea4be" }}>{temporal.activeNodeCount.toLocaleString()} 个活跃</span>
           ) : null}
         </div>
       ),
@@ -75,7 +75,7 @@ export const temporalOverlayPlugin: GraphPlugin = {
     const temporal = context.getTemporalState();
     return {
       id: TEMPORAL_PANEL_ID,
-      title: "Temporal Context",
+      title: "时态上下文",
       placement: "bottom",
       order: 30,
       defaultOpen: false,
@@ -83,21 +83,21 @@ export const temporalOverlayPlugin: GraphPlugin = {
       preferredHeight: 220,
       content: (
         <div style={panelBodyStyle}>
-          <div style={panelEyebrowStyle}>Current scrubber state</div>
+          <div style={panelEyebrowStyle}>时间轴当前状态</div>
           <div style={detailRowStyle}>
-            <span style={detailLabelStyle}>Current</span>
+            <span style={detailLabelStyle}>当前</span>
             <span style={detailValueStyle}>{formatTemporalLabel(temporal?.currentTime ?? null)}</span>
           </div>
           <div style={detailRowStyle}>
-            <span style={detailLabelStyle}>Bounds</span>
+            <span style={detailLabelStyle}>范围</span>
             <span style={detailValueStyle}>
               {(temporal?.minDate ?? "1970")} → {(temporal?.maxDate ?? "now")}
             </span>
           </div>
           <div style={detailRowStyle}>
-            <span style={detailLabelStyle}>Active nodes</span>
+            <span style={detailLabelStyle}>活跃节点</span>
             <span style={detailValueStyle}>
-              {typeof temporal?.activeNodeCount === "number" ? temporal.activeNodeCount.toLocaleString() : "All"}
+              {typeof temporal?.activeNodeCount === "number" ? temporal.activeNodeCount.toLocaleString() : "全部"}
             </span>
           </div>
         </div>
